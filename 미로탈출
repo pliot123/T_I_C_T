@@ -1,0 +1,51 @@
+#include <string>
+#include <vector>
+#include <iostream>
+#include <queue>
+using namespace std;
+int dx[] = { -1,1,0,0 };
+int dy[] = { 0,0,-1,1 };
+vector<vector<int>> v =
+{
+    {1,0,1,0,1,0},
+    {1,1,1,1,1,1},
+    {0,0,0,0,0,1},
+    {1,1,1,1,1,1},
+    {1,1,1,1,1,1}
+};
+
+
+int bfs(int a, int b)
+{
+    queue<pair<int, int>> q;
+    q.push({ a,b });
+
+    while (!q.empty())
+    {
+        int x = q.front().first;
+        int y = q.front().second;
+        q.pop();
+        for (int i = 0; i < 4; i++)
+        {
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+
+            if (nx >= 4 || ny >= 5 || nx < 0 || ny < 0)continue;// 범위 넘어가면 다음!
+            if (v[nx][ny] == 0)continue;
+
+            if (v[nx][ny] == 1) {
+                v[nx][ny] = v[nx][ny] + 1;
+                q.push({ nx,ny });
+            }
+        }
+    }
+    return v[4][5];
+}
+
+int main(void)
+{
+
+    cout << bfs(0, 0);
+
+    return 0;
+}
