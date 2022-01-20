@@ -1,0 +1,31 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+int dp[10000];
+int main() {
+	int n;
+	cin >> n ;
+	//bottom-up
+	dp[1] = 0;
+	for (int i = 2; i <= n; i++) {
+		dp[i] = dp[i - 1] + 1;
+		if ((i % 3)==0) 
+    dp[i] = min(dp[i],dp[i / 3] + 1);
+		if ((i % 2)==0) 
+    dp[i] = min(dp[i], dp[i / 2] + 1);
+	}
+
+  for(int i =0; i<10;i++)
+  {
+    cout << dp[i] << ' ';
+  }
+
+	cout << dp[n] << endl;
+	return 0;
+}
+재귀가 더 어려울 줄 알았는데, 오히려 점화식 찾기에는 반복문이 더 어려웠다.
+재귀는 직관적인데 반해, 반복문은 수열로 이뤄져있다.
+2부터N까지 반복문을 통해서 각각을 1로 만드는 경우의 수를 구해준다(최소값을 기준으로)
+만약 4를 1로 만드는 경우의 수가 4->2->1로 해서 2개라면 8은 거기에 1을 더한 8->4->2->1이다.
+뿐만 아니라 6의 경우는 2와 3의 공배수인 숫자는 2개를 고려해야한다. 3으로 나눌지 2로 나눌지 나눠보고 경우의 수가 더 작게 발생하는 것을 선택하면 된다.
