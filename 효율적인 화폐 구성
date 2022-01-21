@@ -1,0 +1,38 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+int d[10000];
+int m_cnt=100;
+int a, b, c;
+void dp(int a,int b,int c,int result,int cnt)
+{
+    if (result < 0)
+        return;
+    if (result == 0)
+    {
+        if (cnt < m_cnt)
+            m_cnt = cnt;
+    }
+
+    dp(a, b, c, result - a, cnt + 1);
+    dp(a, b, c, result - b, cnt + 1);
+    dp(a, b, c, result - c, cnt + 1);
+
+}
+
+
+int main() {
+    int n;
+    cin >> n;
+    int result;
+    cin >> result;
+
+    cin >> a; cin >> b; cin >> c;
+    dp(a, b, c,result,0);
+
+    cout << m_cnt;
+
+    return 0;
+}
+//재귀함수로 풀었는데, 모든 경우의 수를 다 따져야하기때문에 시간복잡도가 꽤 클꺼같다. bottom-up 방식으로도 한번 풀어서 올려봐야겠다.
