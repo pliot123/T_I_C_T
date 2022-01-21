@@ -1,0 +1,29 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+
+int main() {
+    int result;
+    cin >> result;
+    
+    vector<int> arr(result+1,10001);
+
+    int coin[3] = { 2,3,5 }; 
+
+    arr[0] = 0;
+    for (int i = 0; i < 3; i++){
+        for (int j = coin[i]; j <= result; j++) {
+            if(arr[j-coin[i]]!=10001)
+            arr[j] = min(arr[j], arr[j-coin[i]] + 1);
+        }
+    }
+    
+    cout << arr[result];
+
+    return 0;
+}
+
+반복문을 사용해서 풀었다. 근데 메모이제이션을 해야하는데 변수명을 arr로 두니 은근헷갈렸다.
+메모이제이션 변수명을 하나로 정하는 습관을 들여야겠다. dp를 줄여서 d 앞으로 d를 메모이제이션 변수명으로 항상 쓰도록 노력해야겠다.
