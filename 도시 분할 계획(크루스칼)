@@ -1,0 +1,61 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+int parent[100001];
+
+int Find(int x){//부모찾기
+    if (x == parent[x])return x;
+    return parent[x] = Find(parent[x]);
+}
+
+void Union(int a, int b) {//합치기
+    a = Find(a);
+    b = Find(b);
+
+    if (a < b) parent[b] = a;
+    else parent[a]=b;
+}
+
+int Same_parent(int a, int b) {
+    a = Find(a);
+    b = Find(b);
+
+    if (a == b)return true;
+    else return false;
+}
+
+int main() {
+
+    int n, m;//학생 수, 연산 수
+    cin >> n >> m;
+    int weight, a, b;
+    // 부모 테이블상에서, 부모를 자기 자신으로 초기화
+    for (int i = 1; i <= n; i++) {
+        parent[i] = i;
+    }
+    vector<pair<int, pair<int, int>>> v(m);// 가중치 , 정점->정점
+    for (int i = 0; i < m; i++) {
+        cin >> a >> b >> weight;
+        v[i] = { weight,{a,b} };
+    }
+    sort(v.begin(), v.end());
+    int answer=0;
+    int max = 0;
+    for (int i = 0; i < m; i++) {
+        weight = v[i].first;
+        a = v[i].second.first;
+        b = v[i].second.second;
+        if (!Same_parent(a, b)) {
+            Union(a, b);
+            answer += weight;
+            if (max < weight)max = weight;
+        }
+
+    }
+    cout <<  answer - max;
+    return 0;
+}
+자꾸 런타임 에러가 떳다 OutOfBound 라는데, 뭐가 틀린지 몰라서 한참 해맸다.parent배열을 낮게 잡아준 것이 문제였다. 히든 케이스에서 도시가 아주 많은 경우가 있었나보다.
+각설하고 이 문제는 크루스칼을 통해서 풀었다. 크루스칼 알고리즘은 가중치가 제일 낮은 것부터 하나씩 선을 그어서 사이클을 만들지 않고, 스패닝 트리를 만들면 된다.
+서로소의 부분집합 알고리즘을 기반으로 크루스칼 알고리즘을 해결할 수 있다. 
