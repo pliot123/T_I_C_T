@@ -1,0 +1,50 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#define MAX 999;
+using namespace std;
+int parent[100];
+int Find(int x){// 부모를 찾는 알고리즘
+    if (x == parent[x]) return x;
+    return parent[x] = Find(parent[x]);
+}
+void Union(int a,int b) {
+    a = Find(a);//부모의 노드를 a에 담고
+    b = Find(b);//부모의 노드를 b에 담고
+
+    if (a < b) parent[b] = a;// 더 작은 숫자의 노드를 부모 노드로 정해준다.
+    else parent[a] = b;
+}
+
+int main() {
+    int n, m;//학생 수, 연산 수
+    cin >> n >> m;
+    
+    // 부모 테이블상에서, 부모를 자기 자신으로 초기화
+    for (int i = 1; i <= n; i++) {
+        parent[i] = i;
+    }
+
+    for (int i = 0; i < m; i++) {
+        int func, a, b;
+        cin >> func >> a >> b;
+        // 합집합(Union) 연산인 경우
+        if (func == 0) {
+            Union(a, b);
+        }
+        // 찾기(Find) 연산인 경우
+        else if (func == 1) {
+            if (Find(a) == Find(b)) {
+                cout << "YES" << '\n';
+            }
+            else {
+                cout << "NO" << '\n';
+            }
+        }
+    }
+    return 0;
+}
+
+서로소 집합 알고리즘이다. 서로소 집합은 union,find 라고도 부른다.
+각 노드의 부모를 찾아주는 것이 Find이고 Union은 각 부모의 노드를 찾고 다시 합치는 것이다.
+find는 재귀함수로 이뤄져 있다. 매개변수로 주는 x는 재귀가 돌기전에 부모를 찾을 노드의 번호이다. 
