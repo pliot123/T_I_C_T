@@ -1,0 +1,32 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+using namespace std;
+
+int main() {
+  string n;
+  cin >> n;
+  int change=0;
+  int criteria= n[0]-'0';
+  for(int i =1; i<n.length();i++){
+  int num = n[i]-'0';
+  if(criteria !=num){
+    criteria =num;change++;
+  }
+  }
+  if(change%2 ==1)
+  change= (change+1)/2;
+  else change/=2;
+  cout << change;
+
+  return 0;
+}
+백준 문제인데 이코테에도 실려있다. 문자열을 뒤집어서 통일되게 바꾸는 것이 문제에서 요구한 것이다.
+가령 1110101010 이라면 111111111이나 0000000000으로 바꿔주어야한다.
+처음엔 0그룹과 1그룹으로 나눠어 그룹의 각 개수를 세어보려고 했다. 그래서 두 그룹중 작은 그룹을 다 뒤집어주면 된다고 생각했다.
+물론 이렇게 구현해도 맞을 거라고 생각한다.
+하지만 총 그룹이 몇개있는지를 보고 반으로 나눠줘도 된다고 생각했다. 어차피 그룹은 하나 밖에 차이 안난다. 즉 0그룹 3개 1그룹 5개 이렇게는 불가능하다.
+정리하면
+6번 변화가있으면 7그룹이 생기고 4,3그룹으로 나눠진다. 그럼 그룹 3개를 뒤집어 주면 최소값이다.
+7번의 변화가 있으면 8그룹이 생기고 4,4 그룹으로 나눠진다. 그럼 4개를 뒤집어 주면 최소값이다.
