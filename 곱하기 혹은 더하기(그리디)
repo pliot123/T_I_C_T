@@ -1,0 +1,34 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+using namespace std;
+
+int main() {
+  string n;
+  cin >> n;
+  int result=n[0]-'0';
+
+  for(int i =1; i<n.length();i++){
+  
+  int a = n[i]-'0';
+  if(result == 0 || result ==1 ){
+  result+= a;
+  continue;
+  }
+  if(a==0 || a==1)
+  result+=a;
+  else
+  result*=a;
+  }
+
+  cout << result;
+
+  return 0;
+}
+문자열이 주어지면 순서대로 하나씩 곱하거나 더해서 최대값을 만들면 된다.
+0과 1이 아니라면 무조건 곱해주는게 더 해주는거 보다 큰 수를 나타낸다. 그러한 방식으로 진행했고
+주의할 점은 처음에 0이 들어오면 다음 글자는 무조건 더 해줘야한다는 것이다.
+이 문제에서 배울점은
+  int a = n[i]-'0';
+  이 문장이라 생각한다. 아스키 값에서 '0'을 빼주면 정수형값만 남는다. 
