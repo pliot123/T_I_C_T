@@ -1,0 +1,46 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+int memo[10000];
+bool cmp(int a,int b){
+  return a<b;//앞을 기준으로 작은 순서
+}
+int main() {
+	int n;
+  cin >> n;
+  
+  vector<int> v;
+  int k=0;
+  for(int i =0; i<n;i++){
+    cin >> k;
+    v.push_back(k);
+  }
+
+  sort(v.begin(),v.end(),cmp);
+  //for(int i=0; i<v.size();i++){
+    //cout <<v[i];
+  //}
+  int answer =0;
+  int cnt =0;
+  int criteria=v[0];
+  for(int i =0;i<v.size();i++){
+    cnt++;
+    if(criteria!=v[i])criteria=v[i];
+    //기준이 달라지면 바꿔주고
+    if(criteria==v[i]&&criteria==cnt){
+      cnt=0;answer++;
+    }
+  }
+  cout << answer; 
+  return 0;
+}
+모험가 길드 문제는 모험가들이 모여 최대한 많은 그룹을 만드는 것이다.
+그룹을 만드는 조건은 공포도인데, 공포도가 2라면 2이하의 공포도를 가진 2명이상이 그룹을 결성할 수 있다.
+가령 2 3 1 2 2 라는 공포도를 가진 모험가 들이 있으면, 우선 정렬부터 한다.
+그럼 1 2 2 2 3 이라는 그룹이 만들어 지는데, 공포도가 1인 모험가는 혼자서 그룹이 될 수 있다. 
+즉 정렬을 한 뒤 공포도의 기준을 v[i]값에 따라 바꿔주면 된다.
+그럼 1 , 2 2, 그룹이 만들어 진다. 
+만약 1 2 2 2 3 3 이라면 1, 2 2 , 2 3 3 으로 총 3개의 그룹이 만들어 질 수 있다.
+
+
