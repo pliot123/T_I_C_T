@@ -1,0 +1,49 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+vector<pair<int, int>> a(1000000);
+bool Cmp(pair<int, int> a, pair<int, int> b)
+{
+    if (a.first < b.first) return true;
+    return false;
+}
+
+bool Cmp2(pair<int, int> a, pair<int, int> b)
+{
+    if (a.second < b.second) return true;
+    return false;
+}
+
+int solution(vector<int> food_times, long long k)
+{
+    int N = food_times.size();
+    for (int i = 0; i < N; i++)
+    {
+        a[i].first = food_times[i];
+        a[i].second = i + 1;
+    }
+    sort(a.begin(), a.begin() + N, Cmp);
+
+    int Prev_Time = 0;
+    int Temp_N = N;
+    for (int i = 0; i < N; i++, Temp_N--)
+    {
+        long long Diff = (long long)(a[i].first - Prev_Time) * Temp_N;
+        if (Diff == 0) continue;
+        if (Diff <= k)
+        {
+            k = k - Diff;
+            Prev_Time = a[i].first;
+        }
+        else
+        {
+            k = k % Temp_N;
+            sort(a.begin() + i, a.begin() + N, Cmp2);
+            return a[i + k].second;
+        }
+
+    }
+    return -1;
+}
