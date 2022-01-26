@@ -1,0 +1,36 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+bool cmp(char a,char b){
+  return a<b;
+}
+int main() {
+  string n;
+  cin >> n;
+  vector<char> a;
+  int b=0;
+  for(int i=0; i<n.size();i++){
+    if(n[i]>='9')
+    a.push_back(n[i]);
+    else
+    b+=n[i]-'0';
+  }
+  string s=to_string(b);
+
+  sort(a.begin(),a.end(),cmp);
+  
+  vector<char> c;
+  for(int i =0; i<a.size();i++)
+  c.push_back(a[i]);
+  for(int i =0; i<s.size();i++)
+  c.push_back(s[i]);
+  for(int i=0; i<c.size();i++)
+  cout << c[i];
+}
+
+b+=n[i]-'0';
+string s=to_string(b);
+핵심적인 두 줄이다.  
