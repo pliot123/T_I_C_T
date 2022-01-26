@@ -1,0 +1,44 @@
+https://www.acmicpc.net/problem/18406
+
+123402라는 숫자가 들어오면 반을 잘라서 각 숫자의 합을 더해서 같으면 럭키 아니면 레디로 표기한다.
+나는 n이입력되면 자리수를 구해주고 자리수만큼 for문을 돌면서 계산해주었다.
+
+#include <iostream>
+#include <vector>
+#include <string>
+#include <math.h>
+using namespace std;
+int digit(int n){
+  int k =1;
+  int cnt=0;
+  while(1){
+    if(n<k)
+    return cnt;
+    cnt++;k*=10;
+  }
+}
+int main() {
+  int n;
+  cin >> n; 
+
+  int k = digit(n);
+  int sum_a=0;int sum_b=0;
+  int a=0; int b= 0;
+  for(int i=1; i<= k;i++){//자리수만큼 반복
+  if(i<k/2+1){
+    a=n/pow(10,k-i);
+    a%=10;
+    sum_a +=a;
+  }
+  else{
+    b=n/pow(10,k-i);
+    b%=10;
+    sum_b+=b;
+  }
+  }
+  if(sum_a==sum_b)
+  cout << "LUCKY";
+  else
+  cout <<"READY";
+  return 0;
+}
