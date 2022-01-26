@@ -1,0 +1,33 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int solution(string s) {
+    int answer = s.length();
+    for(int i=1;i<=s.length()/2;i++){
+        int len=s.length();
+        for(int j =0; j<s.length();j++){
+            
+            for(int k=i,cnt=0; j+i<s.length();k+=i){
+                //여기서 비교를 시작함 그럼 시작점은 뭘로해야할까? j임 그럼 끝점은? j+i가 s.length보다 작을때 까지
+                if(s.substr(j,i)==s.substr(j+k,i))cnt++;
+                else{//다르면 어떻게 해야할까? 그럼 cnt*i만큼 길이를 줄여줘야함.
+                    len -=cnt*i;
+                    if(cnt) len += to_string(cnt + 1).length();//들어오는 숫자 개수만큼 길이를 늘려줌 얘를 2가들어오면 +1 100이 들어오면 +3
+                    j+=k-1;
+                    break;
+                }
+                 if (j + k + i >= s.length()) {
+                    len -= i * cnt;
+                    len += to_string(cnt + 1).length();
+                    j += k;
+                }
+        }
+            
+    }
+        if(len<answer)answer=len;
+    }
+    return answer;
+}
+for문이 한번에 3개나 사용되서 굉장히 어려웠다. 크게 어렵지 않은 난이도인데, 구현 피지컬이 너무 후달린다는 생각이 들었다.. 
