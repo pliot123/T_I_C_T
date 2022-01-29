@@ -1,0 +1,70 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <cstring> 
+using namespace std;
+bool pole[101][101];
+bool bar[101][101];
+
+bool check_pole(int x, int y) {
+    if (y == 0 || pole[x][y - 1])
+        return true;
+    if ((x > 0 && bar[x - 1][y]) || bar[x][y])
+    return true;
+    
+    return false;
+}
+bool check_bar(int x, int y) {
+    if (pole[x][y - 1] || pole[x + 1][y - 1])
+        return true;
+    if (x > 0 && bar[x - 1][y] && bar[x + 1][y])
+        return true;
+
+    return false; 
+}
+bool Delete(int x, int y) {
+    for (int i = max(x - 1, 0); i <= x + 1; i++) {
+        for (int j = y; j <= y + 1; j++) {
+            if (pole[i][j] && check_pole(i, j) == false)
+                return false;
+            if (bar[i][j] && check_bar(i, j) == false)
+                return false;
+        }
+    }
+    return true;
+}
+
+vector<vector<int>> solution(int n, vector<vector<int>> build_frame) {
+    memset(pole,0,sizeof(pole));
+    memset(bar,0,sizeof(bar));
+    vector<vector<int>> answer; int x, y, a, b;
+    for (int i = 0; i < build_frame.size(); i++) {
+        x = build_frame[i][0]; y = build_frame[i][1];
+        a = build_frame[i][2]; b = build_frame[i][3];
+        if (a == 0 && b == 1) {//기둥설치
+            if (check_pole)pole[x][y] = true;
+        }
+        else if (a == 0 && b == 0) {//기둥삭제
+            pole[x][y] = false;
+            if (!Delete(x, y))pole[x][y] = true;
+
+        }
+        else if (a == 1 && b == 1) {//보설치
+            if (check_bar)bar[x][y] = true;
+        }
+        else if (a == 1 && b == 0) {//보삭제
+            bar[x][y] = false;
+            if (!Delete(x, y))bar[x][y] = true;
+        }
+    }
+    for (int i = 0; i <= n; i++) {
+        for (int j = 0; j <= n; j++) {
+            if (pole[i][j])
+                answer.push_back({ i,j,0 });
+            if (bar[i][j])
+                answer.push_back({ i,j,1 });
+        }
+    }
+    return answer;
+}
+너무 안풀려용... 뀨 ㅠ ㅠㅠ ㅠ ㅠ ㅠ ㅠㅠ ㅠ ㅠ ㅠ ㅠ ㅠ ㅠ ㅠ ㅠㅠ쀼 ㅠㅠㅠ ㅠ ㅠ ㅠ ㅠ ㅠ ㅠ ㅠ ㅠ ㅠㅠ ㅠ ㅠ ㅠ ㅠ ㅠ ㅠ ㅠ ㅠ푸~~~~~~~~~~~~~~~~~~~~~~념
