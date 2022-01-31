@@ -1,0 +1,66 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+#include <math.h>
+#define INF 987654321
+
+using namespace std;
+struct point {
+    int row;
+    int col;
+};
+
+point House[100], Chicken[13];
+int HouseCnt, ChickenCnt;
+
+int subset_cnt(int x) {
+    int cnt = 0;
+    while (x) {
+        if (x & 1)cnt++;
+        x = x >> 1;
+    }
+    return cnt;
+}
+
+int solve(int n, int m) {
+
+    int ret = INF;
+
+    for (int subset = 0; subset < 1 << ChickenCnt; subset++) {
+        if (subset_cnt(subset) == m) {
+            int sum = 0;
+            for (int i = 0; i < HouseCnt; i++) {
+                int dist = INF;
+                for (int j = 0; j < ChickenCnt; j++) {
+                    if (subset & 1 << j) {
+                        dist = min(dist, (abs(House[i].row - Chicken[j].row) + abs(House[i].col - Chicken[j].col)));
+                    }
+                }
+                sum += dist;
+            }
+            ret = min(ret, sum);
+        }
+    }
+    return ret;
+}
+int main() {
+    int n, m;
+    cin >> n >> m;
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) {
+            int input;
+            cin >> input;
+            if (input == 1)
+                House[HouseCnt++] = { i,j };
+            if (input == 2)
+                Chicken[ChickenCnt++] = { i,j };
+        }
+    }
+    cout << solve(n, m) << endl;
+    return 0;
+}
+
+
+비트마스크 연산으로 집합의 모든 경우의 수를 구할 수 있다. 경우의 수에서 폐업하고 남을 가게의 갯수가 될 때마다 값을 계산해주면 되는 완전 탐색문제.
+비트마스크 연산을 잘 안다면 그리 어렵지 않은 문제인데 본인은 오랜만에 비트마스크연산을 사용해봐서 비트마스크사용법을 다시 배웠음. 문제풀이는 https://youtu.be/LoaKDSzoTG0 여기를 보고 풀었다. 
