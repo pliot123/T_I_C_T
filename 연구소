@@ -1,0 +1,86 @@
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <algorithm>
+using namespace std;
+
+int dr[4] = { -1,1,0,0 };
+int dc[4] = { 0,0,-1,1 };
+int arr[8][8];
+int ret, n, m;
+void bfs() {
+    int backup[8][8] = { 0 };
+    int visited[8][8] = { 0 };
+    queue<int> q;
+    for (int y = 0; y < n; ++y) {
+        for (int x = 0; x < m; ++x) {
+            backup[y][x] = arr[y][x];
+            if (backup[y][x] == 2) {  
+                q.push(y * 10 + x);
+                visited[y][x] = 1;
+            }
+        }
+    }
+    while (!q.empty()) {
+        int cur = q.front(); q.pop();
+        int cy = cur / 10;
+        int cx = cur % 10;
+
+        backup[cy][cx] = 2;
+
+        for (int dir = 0; dir < 4; ++dir) {
+            int ny = cy + dr[dir];
+            int nx = cx + dc[dir];
+
+            if (ny < 0 || ny >= n || nx < 0 || nx >= m) {
+                continue;
+            }
+
+            if (visited[ny][nx] == 0 && arr[ny][nx] == 0) {
+                visited[ny][nx] = 1;
+                q.push(ny * 10 + nx);
+            }
+        }
+    }
+
+    int cnt = 0;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            if (backup[i][j] == 0)
+            cnt++;
+        }
+    }
+    ret = max(cnt, ret);
+}
+
+void dfs(int wall,int y,int x) {
+    if (wall == 3) {
+        bfs();
+        return;
+    }
+
+    for (int y = 0; y < n; y++) {
+        for (int x = 0; x < m; x++) {
+            if (arr[y][x] == 0) {
+                arr[y][x] = 1;
+                dfs(wall + 1,y,x);
+                arr[y][x] = 0;
+            }
+        }
+    }
+}
+int main() {
+
+    cin >> n >> m;
+
+    for (int r = 0; r < n; r++) {
+        for (int c = 0; c < m; c++) {
+            int input;
+            cin >> arr[r][c];
+        }
+    }
+    dfs(0, 0, 0);
+    cout << ret;
+    return 0;
+}
+dfs와 bfs를 풀면서 아직도 잘 못한다는 생각이 많이든다. 오늘 내일 집중적으로 문제를 풀어봐야겠다.
