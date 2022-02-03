@@ -1,0 +1,65 @@
+#include <string>
+#include <stack>
+
+using namespace std;
+
+
+bool right( string p,int * pos){    
+    stack<char> s;
+    bool ret=true;
+    int left= 0 ; 
+    int right =0 ;
+    
+    for(int i=0; i<p.length();i++){
+        if(p[i]=='('){
+            s.push('(');
+            left++;
+        }
+        else{
+            right++;
+            if(s.empty())
+                ret =false;
+            else
+                s.pop();
+        }
+        
+        if(left == right){
+            *pos=i+1;
+            return ret;
+        }
+    }
+    
+    return true;
+    
+}
+
+string solution(string p) {
+    if(p.empty())
+        return p;
+    
+    
+    int pos;
+    bool correct=right(p,&pos);
+    string u = p.substr(0,pos);
+    string v = p.substr(pos, p.length()-pos);
+    
+    if(correct){
+        return u+solution(v);
+    }
+    
+    string answer = "(" + solution(v) + ")";
+    for(int i =1; i < u.length()-1;i++){
+        if(u[i]=='(')
+            answer+=")";
+        else
+            answer+="(";
+    }
+    return answer;
+}
+dfs문제
+2시간정도 풀다가, 문자열을 도저히 다룰 자신이 없어서 유투브보고 풀었다.https://youtu.be/7_fxZjrY3Oo
+재귀 구조로 문제에서 제시된 순서대로 코드를 구성하면된다.https://programmers.co.kr/learn/courses/30/lessons/60058
+
+몇가지 얻어갈 점은 문자열은 +로 그냥 붙쳐서 쓸수 있다는 점(몰랐다)
+문자열 나누는 것이 힘들었고, 포인터를 이용해서 main에서 선언한 변수를 다른 함수에서 값 변경시켜주는 것도 오랜만에 해봤다. 코테하는동안 크게 포인터를 이용할 일이 없으니.
+그리고 문자열의 길이는 aaaa는 4, 맨마지막 a의 idx는 3 자꾸 헷갈려서 문자열 자를 때 고생좀 했다. substr(a,b)에서 a에는 인덱스를 넣고 b는 문자열 길이를 넣는것인데 은근 헷갈려서 헤맸다.
