@@ -1,0 +1,79 @@
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <algorithm>
+
+using namespace std;
+
+struct virus {
+    int sort;
+    int y;
+    int x;
+};
+
+int dy[4] = { -1,1,0,0 };
+int dx[4] = { 0,0,-1,1 };
+int arr[201][201];
+int ret, n, k;
+
+queue<virus> q1;
+queue<virus> q2;
+
+void bfs(int time) {
+    virus v;
+    for (int i = 0; i < time; i++)
+    {
+        if (i % 2 == 0) {
+            while (!q1.empty()) {
+                v = q1.front();
+                q1.pop();
+                for (int dir = 0; dir < 4; ++dir) {
+                    if (arr[v.y+dy[dir]][v.x+dx[dir]] == 0 && v.y + dy[dir] > 0 && v.y + dy[dir] < n+1 && v.x + dx[dir]>0&& v.x + dx[dir]<n+1) {
+                        arr[v.y + dy[dir]][v.x + dx[dir]] = v.sort;//바이러스 종류 삽입.
+                        q2.push({ v.sort,v.y + dy[dir],v.x + dx[dir] });
+                    }
+                }
+            }
+        }
+        else {
+            while (!q2.empty()) {
+                v = q2.front();
+                q2.pop();
+                for (int dir = 0; dir < 4; ++dir) {
+                    if (arr[v.y + dy[dir]][v.x + dx[dir]] == 0 && v.y + dy[dir] > 0 && v.y + dy[dir] < n + 1 && v.x + dx[dir]>0 && v.x + dx[dir] < n + 1) {
+                        arr[v.y + dy[dir]][v.x + dx[dir]] = v.sort;//바이러스 종류 삽입.
+                        q1.push({ v.sort,v.y + dy[dir],v.x + dx[dir] });
+                    }
+                }
+            }
+
+        }
+    }
+}
+
+int main() {
+    cin >> n >> k;
+    int time=0;
+    for (int j = 1; j <= n; ++j) {
+        for (int z = 1; z <= n; ++z) {       
+            cin >> arr[j][z];
+        }
+    }
+    
+    for (int i = 1; i <= k; ++i) {
+        for (int j = 1; j <= n; ++j) {
+            for (int z = 1; z <= n; ++z) {
+                if (arr[j][z] == i)
+                    q1.push({ i,j,z });
+            }
+        }
+    }
+    int y, x;
+    cin >> time >> y >> x;
+    bfs(time);
+
+    cout << arr[y][x];
+
+    return 0;
+}
+큐를 2개만들어서 시간이 홀수 짝수일때나눠서 bfs로 각각의 증가할 수 있는 바이러스 칸을 모두 그려주었다. 
