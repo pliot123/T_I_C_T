@@ -1,0 +1,65 @@
+#include <iostream>
+#include <vector>
+#include <math.h>
+#include <algorithm>
+using namespace std;
+
+int dy[4] = { -1,1,0,0 };
+int dx[4] = { 0,0,-1,1 };
+int N;
+char arr[6][6];
+bool check() {
+	for (int i = 0; i < N; ++i) {
+		for (int j = 0; j < N; ++j) {
+			if (arr[i][j] == 'T') {
+				for (int dir = 0; dir < 4; ++dir) {
+					int ny = i;
+					int nx = j;
+					while (1) {
+						ny = ny + dy[dir];
+						nx = nx + dx[dir];
+						if (ny < 0 || ny >= N || nx < 0 || nx >= N)
+							break;
+						if (arr[ny][nx] == 'O')
+							break;
+						if (arr[ny][nx] == 'S')
+							return false;
+					}
+				}
+			}
+		}
+	}
+	return true;
+}
+bool dfs(int cnt ) {
+	if (cnt == 3) {
+		if (check()) {
+			cout << "YES";
+			exit(0);
+		}
+		return false;
+	}
+	for (int i = 0; i < N; ++i) {
+		for (int j = 0; j < N; ++j) {
+			if (arr[i][j] == 'X') {
+				arr[i][j] = 'O';
+				dfs(cnt + 1);
+				arr[i][j] = 'X';
+			}
+		}
+	}
+
+	return false;
+}
+int main(void) {
+	cin >> N;
+	for (int i = 0; i < N; ++i) {
+		for (int j = 0; j < N; ++j) {
+			cin >> arr[i][j];
+		}
+	}
+	if (!dfs(0))
+		cout << "NO";
+	return 0;
+}
+//dfs에서 종료조건에 return 을 안해줘서 1시간만에 풀어놓고 2시간동안 디버깅했다. 
