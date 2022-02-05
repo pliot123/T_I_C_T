@@ -1,0 +1,28 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+using namespace std;
+bool cmp(int a, int b) {
+	return a < b;
+}
+
+int main(void) {
+	int n; cin >> n;
+	vector <int > a(n);
+	for (int i = 0; i < n; i++) {
+		cin >> a[i];
+	}
+	sort(a.begin(), a.end(), cmp);
+	
+	if (n % 2 == 1) {
+		cout << a[n / 2];
+	}
+	else
+	{
+		cout << a[n/2-1];
+	}
+
+	return 0;
+}
+정렬문제인디 중간값을 구하면 된다. 정렬문제 은근히 재밌다.
