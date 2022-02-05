@@ -1,0 +1,35 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+using namespace std;
+struct student {
+	int k, y, s;
+	string name;
+};
+
+bool cmp(student a, student b) {
+	if (a.k == b.k && a.s == b.s && a.y == b.y)
+		return a.name < b.name;
+	if (a.k == b.k && a.y == b.y)
+		return a.s > b.s;
+	if (a.k == b.k)
+		return a.y < b.y;
+	return a.k > b.k;
+}
+
+int main(void) {
+	int N;
+	cin >> N;
+	vector<student> a(N);
+	student s;
+	for (int i = 0; i < N; ++i) {
+		cin >> a[i].name >> a[i].k >> a[i].y >> a[i].s;
+	}
+	sort(a.begin(), a.end(), cmp);
+	for (int i = 0; i < N; ++i) {
+		cout << a[i].name << '\n';
+	}
+	return 0;
+}
+정렬하는법은 간단한데 cout <<endl을 쓰면 시간 초과가 뜬다. 그래서 \n을 사용해주어야한다.
