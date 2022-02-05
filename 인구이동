@@ -1,0 +1,82 @@
+#include <iostream>
+#include <math.h>
+using namespace std;
+int arr[51][51];
+int visited[51][51];
+int N,L,R;
+int cnt;
+int find(int y, int x, int value) {
+	if (y > N-1 || y < 0 || x >N-1 || x < 0)return 0;
+	if (visited[y][x])return 0;
+
+	if (value != -1) {
+	int diff = abs(value-arr[y][x]);
+	if (diff > R || diff < L)return 0;
+	}
+	visited[y][x] = 1;
+	cnt++;
+	int sum = arr[y][x];
+	sum += find(y - 1, x, arr[y][x]);
+	sum += find(y + 1, x, arr[y][x]);
+	sum += find(y, x - 1, arr[y][x]);
+	sum += find(y, x + 1, arr[y][x]);
+	
+	return sum;
+}
+void move(int y,int x, int value) {
+	if (y > N - 1 || y < 0 || x >N - 1 || x < 0)return;
+	if (visited[y][x] != 1)return;
+
+	visited[y][x] = 2;
+	arr[y][x] = value;
+	move(y - 1, x, value);
+	move(y + 1, x, value);
+	move(y, x - 1, value);
+	move(y, x + 1, value);
+
+}
+
+int dfs() {
+	int ret = 0;
+	bool flag;
+	do {
+		flag = false;
+		for (int i = 0; i < N; ++i)
+			for (int j = 0; j < N; ++j)
+				visited[i][j] = 0;
+
+		for (int i = 0; i < N; ++i) {
+			for (int j = 0; j < N; ++j) {
+				if (visited[i][j] == 0) {
+					cnt = 0;
+					int sum = find(i, j, -1);
+					if (cnt > 1) {
+						flag = true;
+						move(i,j,sum/cnt);
+					}
+					else {
+						visited[i][j] = 2;
+					}
+				}
+
+			}
+		}
+		if (flag) ++ret;
+	} while (flag);
+	
+	return ret;
+}
+
+int main(void) {
+	cin >> N >> L >> R;
+	for (int i = 0; i < N; ++i) {
+		for (int j = 0; j < N; ++j) {
+			cin >> arr[i][j];
+		}
+	}
+	cout << dfs();
+
+	return 0;
+}
+인구이동 문제인데, 처음에 bfs와 dfs를 두개 합쳐서 구현했다가 코드가 너무 복잡해져서 fail 이 코드는 do while문과 visited를 2번에나눠서 쓰는게 인상적인 코드이다.
+https://youtu.be/1lSWGudxxrQ 이 영상을 보고 풀었다.
