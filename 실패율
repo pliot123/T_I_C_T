@@ -1,0 +1,48 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <iostream>
+using namespace std;
+struct stg {
+    int num;
+    float fail;
+};
+bool cmp(stg a, stg b) {
+    if (a.fail == b.fail)
+        return a.num < b.num;
+    return a.fail > b.fail;
+};
+vector<int> solution(int N, vector<int> stages) {
+
+    vector<int> answer;
+    int all = stages.size();
+    int clear=0;
+    vector<stg> res;
+    for (int i = 1; i <= N; ++i) {
+        int cnt = 0;
+        for (int j = 0; j < stages.size(); j++) {
+            if (i == stages[j]) {
+                cnt++;
+            }
+            if (stages[j] == N + 1) {
+               clear++;
+            }
+        }
+        if (cnt > 0) {
+            stg k; k.num = i; k.fail = cnt / (double)all;
+            all -= cnt;
+            res.push_back(k);
+        }
+        else {
+            stg k; k.num = i; k.fail = 0;
+            res.push_back(k);
+        }
+        
+    }
+    sort(res.begin(), res.end(), cmp);
+    for (int i = 0; i < N; ++i) {
+        answer.push_back(res[i].num);
+    }
+    return answer;
+}
+정렬 조금 +구현 조금 섞어놓은 문제다. 카카오 문제중에 제일 쉬웠다.
