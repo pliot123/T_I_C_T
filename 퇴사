@@ -1,0 +1,27 @@
+#include <algorithm>
+#include <iostream>
+
+using namespace std;
+int n, dp[16], t[16], p[16];
+int cnt = 0;
+int func(int pos) {
+    
+    if (pos == n + 1)return 0;//범위를 넘어가면 리턴
+    if (pos > n + 1)return -99999999;//범위를 넘어가는 날이 나오면 계산에 포함시키면 안됌
+
+    int ret = dp[pos];
+    
+    if (ret != 0)return ret;// 방문을 했으면 구태여 다시 계산하지 않기위해
+
+    return ret = max(func(pos + 1), func(pos + t[pos]) + p[pos]);//왼쪽으로 쭈욱
+}
+
+int main() {
+    cin >> n;
+    for (int i = 1; i <= n; ++i) {
+        cin >> t[i] >> p[i];
+    }
+
+    cout << func(1);
+    return 0;
+}
