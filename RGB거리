@@ -1,0 +1,58 @@
+#include <iostream>
+#include <algorithm>
+using namespace std;
+int main() {
+	int arr[1001][3] = { 0 };
+	int N; cin >> N;
+	for (int i = 1; i <= N; i++) {
+		int R, G, B;
+		cin >> R >> G >> B;
+		arr[i][0] = min(arr[i - 1][1], arr[i - 1][2]) + R;
+		arr[i][1] = min(arr[i - 1][0], arr[i - 1][2]) + G;
+		arr[i][2] = min(arr[i - 1][1], arr[i - 1][0]) + B;
+	}
+	cout << min(arr[N][0], min(arr[N][1], arr[N][2]));
+	return 0;
+}
+//바텀 업 방식
+
+#include <iostream>
+#include <cstring>
+#include <algorithm>
+using namespace std;
+
+int colors[1001][3];
+int d[1001][3];
+int N;
+int dp(int idx, int color) {
+	if (idx == N)
+		return d[idx][color]+1;
+	if (d[idx][color] != -1)
+		return d[idx][color];
+
+	if (color == 0)
+		return d[idx][0] = colors[idx][0] + min(dp(idx + 1, color + 1), dp(idx + 1, color + 2));
+	else if(color ==1)
+		return d[idx][1] = colors[idx][1] + min(dp(idx + 1, color - 1), dp(idx + 1, color + 1));
+	else
+		return d[idx][2] = colors[idx][2] + min(dp(idx + 1, color - 1), dp(idx + 1, color - 2));
+}
+int main() {
+	memset(d, -1, sizeof(d));
+	cin >> N;
+	for (int i = 0; i < N; ++i) {
+		cin >> colors[i][0] >> colors[i][1] >> colors[i][2];
+	}
+	int R = dp(0, 0);
+	int G = dp(0, 1);
+	int B = dp(0, 2);
+
+	cout << min(R, min(G, B));
+	
+	return 0;
+}
+//탑 다운 방식
+
+탑 다운 방식은 큰 문제를 작게 나누어 떨어뜨리는 것이고 
+바텀업 방식은 작은 문제를 조금 씩 큰 문제로 쌓아 올리는 것이다.
+탑 다운방식은 아직 좀 어려운 감이 있다.. ㅠ
